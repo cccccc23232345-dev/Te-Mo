@@ -1,12 +1,15 @@
 import React from 'react';
 import './Navbar.css';
+import logoImage from '../assets/images/temo-logo.jpg';
 
 export default function Navbar({ cartCount, user, onOpenAuth, onLogout, onOpenCart, searchQuery, onSearchChange }) {
   return (
     <header className="navbar">
       <div className="navbar-container">
         <a className="logo" href="#main-content" aria-label="TeMo home">
-          Te<span className="logo-accent">Mo</span>
+          <span className="logo-mark">
+            <img src={logoImage} alt="" />
+          </span>
         </a>
 
         <form className="search-box" role="search" onSubmit={(event) => { event.preventDefault(); document.querySelector('.product-grid')?.scrollIntoView({ behavior: 'smooth' }); }}>
