@@ -27,33 +27,6 @@
   white-space: nowrap;
 }
 
-.logo {
-  display: inline-flex;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-/* Source image has wide empty margins; zoom in on the centered mark + wordmark */
-.logo-mark {
-  position: relative;
-  display: block;
-  width: 60px;
-  height: 52px;
-  overflow: hidden;
-  border-radius: 8px;
-  background: #fbf8f2;
-}
-
-.logo-mark img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  height: 210%;
-  width: auto;
-  max-width: none;
-  transform: translate(-50%, -50%);
-}
-
 .logo-accent {
   display: inline-block;
   padding: 1px 5px 2px;
