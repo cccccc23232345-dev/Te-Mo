@@ -1,0 +1,163 @@
+.product-detail-page {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 32px 0 72px;
+}
+
+.detail-back-button {
+  border: 0;
+  background: transparent;
+  color: var(--primary-red);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  padding: 8px 0;
+}
+
+.detail-back-button:hover { text-decoration: underline; }
+
+.product-detail-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+  gap: clamp(32px, 7vw, 92px);
+  align-items: center;
+  padding: 42px 0 64px;
+}
+
+.product-detail-image-wrap {
+  position: relative;
+  overflow: hidden;
+  background: #f0eadf;
+  aspect-ratio: 1 / 1;
+  max-height: 620px;
+}
+
+.product-detail-image-wrap img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-detail-category {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: var(--primary-red);
+  color: #fff9ef;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 7px 10px;
+  text-transform: uppercase;
+}
+
+.product-detail-summary { max-width: 520px; }
+.product-detail-eyebrow,
+.detail-section-kicker {
+  color: var(--primary-red);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  margin: 16px 0 10px;
+  text-transform: uppercase;
+}
+
+.product-detail-summary h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(34px, 5vw, 64px);
+  line-height: 0.98;
+  margin: 0 0 20px;
+}
+
+.detail-rating,
+.reviews-score {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.detail-rating strong,
+.reviews-score strong { color: var(--primary-red); }
+.detail-rating span,
+.reviews-score span { color: #6b6257; font-size: 13px; }
+
+.product-detail-price {
+  font-size: 25px;
+  font-weight: 700;
+  margin: 28px 0 12px;
+}
+
+.product-detail-price s { color: #978e82; font-size: 17px; font-weight: 400; margin-right: 5px; }
+.product-detail-description { color: #554d45; font-size: 17px; line-height: 1.65; margin: 0; }
+
+.detail-benefits {
+  border-top: 1px solid rgba(23, 23, 23, 0.15);
+  border-bottom: 1px solid rgba(23, 23, 23, 0.15);
+  list-style: none;
+  margin: 26px 0;
+  padding: 0;
+}
+
+.detail-benefits li { padding: 11px 0; }
+.detail-benefits li::before { color: var(--primary-red); content: '✓'; font-weight: 700; margin-right: 10px; }
+.detail-add-button { max-width: 260px; }
+
+.product-detail-info {
+  border-top: 1px solid rgba(23, 23, 23, 0.18);
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 80px;
+  padding: 52px 0;
+}
+
+.product-detail-info h2,
+.product-reviews h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(27px, 3.5vw, 42px);
+  line-height: 1.05;
+  margin: 0 0 18px;
+}
+
+.detail-description p:not(.detail-section-kicker) { color: #554d45; line-height: 1.7; max-width: 650px; }
+.detail-specs dl { border-top: 1px solid rgba(23, 23, 23, 0.15); margin: 0; }
+.detail-specs dl div { border-bottom: 1px solid rgba(23, 23, 23, 0.15); display: flex; justify-content: space-between; gap: 16px; padding: 13px 0; }
+.detail-specs dt { color: #6b6257; }
+.detail-specs dd { font-weight: 700; margin: 0; text-align: right; }
+
+.product-reviews { border-top: 1px solid rgba(23, 23, 23, 0.18); padding-top: 52px; }
+.reviews-heading { align-items: end; display: flex; justify-content: space-between; gap: 24px; margin-bottom: 26px; }
+.reviews-heading .detail-section-kicker { margin-top: 0; }
+.review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.review-card { background: #fff; border: 1px solid rgba(23, 23, 23, 0.12); padding: 24px; }
+.review-stars { color: var(--primary-red); letter-spacing: 2px; }
+.review-card p { line-height: 1.6; min-height: 105px; }
+.review-card strong,
+.review-card span { display: block; }
+.review-card span { color: #6b6257; font-size: 12px; margin-top: 5px; }
+
+:root[data-theme='dark'] .product-detail-image-wrap { background: #282522; }
+:root[data-theme='dark'] .product-detail-description,
+:root[data-theme='dark'] .detail-description p:not(.detail-section-kicker) { color: #d6cfc4; }
+:root[data-theme='dark'] .detail-rating span,
+:root[data-theme='dark'] .reviews-score span,
+:root[data-theme='dark'] .detail-specs dt,
+:root[data-theme='dark'] .review-card span { color: #b3aa9e; }
+:root[data-theme='dark'] .review-card { background: #242220; border-color: rgba(255, 249, 239, 0.18); }
+:root[data-theme='dark'] .detail-benefits,
+:root[data-theme='dark'] .detail-specs dl,
+:root[data-theme='dark'] .detail-specs dl div { border-color: rgba(255, 249, 239, 0.18); }
+
+@media (max-width: 760px) {
+  .product-detail-page { width: min(100% - 28px, 560px); padding-top: 20px; }
+  .product-detail-hero { display: block; padding: 24px 0 48px; }
+  .product-detail-image-wrap { margin-bottom: 32px; }
+  .product-detail-summary h1 { font-size: 42px; }
+  .product-detail-info { display: block; padding: 40px 0; }
+  .detail-specs { margin-top: 36px; }
+  .reviews-heading { align-items: start; display: block; }
+  .reviews-score { margin-top: 18px; }
+  .review-grid { grid-template-columns: 1fr; }
+  .review-card p { min-height: auto; }
+}

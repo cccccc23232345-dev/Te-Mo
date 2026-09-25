@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
 import LegalPage from './components/LegalPage';
+import ProductDetail from './components/ProductDetail';
 import { supabase } from './supabaseClient';
 import './App.css';
 
@@ -459,6 +460,7 @@ export default function App() {
   const [visibleProductCount, setVisibleProductCount] = useState(50);
   const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('temo-theme') === 'dark');
   const [legalPage, setLegalPage] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [savedProducts, setSavedProducts] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem('temo-saved-products') || '[]');
@@ -514,12 +516,18 @@ export default function App() {
   }, [cart, cartStorageKey]);
 
   useEffect(() => {
-    const promoTimer = setTimeout(() => {
+    const openPromotion = () => {
+      if (isAuthOpen || isCartOpen || isPromoOpen) return;
       setPromoIndex((currentIndex) => (currentIndex + 1) % PROMOTIONS.length);
       setIsPromoOpen(true);
-    }, 7000);
-    return () => clearTimeout(promoTimer);
-  }, []);
+    };
+    const initialPromoTimer = setTimeout(openPromotion, 5000);
+    const recurringPromoTimer = setInterval(openPromotion, 15000);
+    return () => {
+      clearTimeout(initialPromoTimer);
+      clearInterval(recurringPromoTimer);
+    };
+  }, [isAuthOpen, isCartOpen, isPromoOpen]);
 
   useEffect(() => {
     const closeOverlaysWithEscape = (event) => {
@@ -611,6 +619,11 @@ export default function App() {
 
   const handleCheckout = async (event) => {
     event.preventDefault();
+    if (!user) {
+      setIsCheckoutOpen(false);
+      setIsAuthOpen(true);
+      return;
+    }
     setPaymentError('');
     setIsVerifying(true);
     const formData = new FormData(event.currentTarget);
@@ -703,6 +716,13 @@ export default function App() {
     setIsCartOpen(false);
     setIsCheckoutOpen(false);
   };
+  const beginCheckout = () => {
+    if (!user) {
+      setIsAuthOpen(true);
+      return;
+    }
+    setIsCheckoutOpen(true);
+  };
   const openLegalPage = (page) => {
     setIsAuthOpen(false);
     closeCart();
@@ -722,7 +742,7 @@ export default function App() {
         onSearchChange={handleSearchChange}
       />
 
-      {legalPage ? <LegalPage page={legalPage} onBack={() => setLegalPage(null)} onOpenLegal={setLegalPage} /> : <main className="main-content" id="main-content">
+      {legalPage ? <LegalPage page={legalPage} onBack={() => setLegalPage(null)} onOpenLegal={setLegalPage} /> : selectedProduct ? <ProductDetail product={selectedProduct} onBack={() => setSelectedProduct(null)} onAddToCart={(product) => { addToCart(product); setIsCartOpen(true); }} /> : <main className="main-content" id="main-content">
         {!searchQuery.trim() && (
           <section className="hero-banner">
             <div className="hero-copy">
@@ -761,7 +781,20 @@ export default function App() {
 
         {filteredProducts.length > 0 ? <section className="product-grid" aria-label="Products">
           {visibleProducts.map((prod) => (
-            <div key={prod.id} className="product-card">
+            <article
+              key={prod.id}
+              className="product-card"
+              role="button"
+              tabIndex="0"
+              onClick={() => setSelectedProduct(prod)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  setSelectedProduct(prod);
+                }
+              }}
+              aria-label={`View details for ${prod.name}`}
+            >
               <div className="product-image-wrap">
                 <img
                   src={prod.image}
@@ -803,7 +836,7 @@ export default function App() {
               <button className="add-cart-btn" aria-label={`Add ${prod.name} to cart`} onClick={(event) => { event.stopPropagation(); addToCart(prod); setIsCartOpen(true); }}>
                 Add to cart <span aria-hidden="true">+</span>
               </button>
-            </div>
+            </article>
           ))}
         </section> : <div className="no-results"><h2>No products found</h2><p>Try another search or browse a different category.</p></div>}
 
@@ -882,7 +915,7 @@ export default function App() {
                   ))}
                 </div>
                 <div className="cart-total"><span>Total</span><strong>${cartTotal.toFixed(2)}</strong></div>
-                <button className="add-cart-btn" onClick={() => setIsCheckoutOpen(true)}>Proceed to payment</button>
+                <button className="add-cart-btn" onClick={beginCheckout}>Proceed to payment</button>
               </>
             )}
           </aside>
